@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -13,6 +14,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -34,56 +37,56 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sonu.jetpackcomposeexamples.ui.theme.JetpackComposeExamplesTheme
+import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val fontFamily = FontFamily(
-            Font(R.font.nunito_bold, FontWeight.Bold),
-            Font(R.font.nunito_light, FontWeight.Light),
-        )
+
         setContent {
-            Box(
-                modifier = Modifier
-                    .padding(10.dp)
-                    .fillMaxSize()
-                    .background(Color(0xFF101010))
-            ) {
-                Text(
-                    text = buildAnnotatedString {
+            //remember means when i am recomposing don't reset the value use the previous remembered value
+            val color = remember {
+                mutableStateOf(Color.Yellow)
+            }
 
-                        withStyle(
-                            style = SpanStyle(
-                                color = Color.Green,
-                                fontSize = 50.sp
-                            )
-                        ) {
-                            append("J")
+            Column() {
+                ColorBox(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxSize()
+                ) {
+                    color.value = it
+                }
 
-                        }
-                        append("etpack")
-                        withStyle(
-                            style = SpanStyle(
-                                color = Color.Green,
-                                fontSize = 50.sp
-                            )
-                        ) {
-                            append("C")
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .background(color.value)
+                        .fillMaxSize()
+                ) {
 
-                        }
-                        append("ompose")
-
-                    },
-                    color = Color.White,
-                    fontSize = 30.sp,
-                    fontFamily = fontFamily,
-                    fontWeight = FontWeight.Bold,
-                    fontStyle = FontStyle.Italic,
-                    textAlign = TextAlign.Center,
-                    textDecoration = TextDecoration.Underline
-
-                )
+                }
             }
         }
+    }
+
+    @Composable
+    fun ColorBox(
+        modifier: Modifier,
+        updateColor: (Color) -> Unit
+    ) {
+
+        Box(modifier = modifier
+            .background(color = Color.Red)
+            .clickable {
+                updateColor(
+                    Color(
+                        Random.nextFloat(),
+                        Random.nextFloat(),
+                        Random.nextFloat(),
+                        1f
+                    )
+                )
+            })
     }
 }
