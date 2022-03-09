@@ -33,56 +33,15 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sonu.jetpackcomposeexamples.ui.theme.HomeScreen
 import com.sonu.jetpackcomposeexamples.ui.theme.JetpackComposeExamplesTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val fontFamily = FontFamily(
-            Font(R.font.nunito_bold, FontWeight.Bold),
-            Font(R.font.nunito_light, FontWeight.Light),
-        )
         setContent {
-            Box(
-                modifier = Modifier
-                    .padding(10.dp)
-                    .fillMaxSize()
-                    .background(Color(0xFF101010))
-            ) {
-                Text(
-                    text = buildAnnotatedString {
-
-                        withStyle(
-                            style = SpanStyle(
-                                color = Color.Green,
-                                fontSize = 50.sp
-                            )
-                        ) {
-                            append("J")
-
-                        }
-                        append("etpack")
-                        withStyle(
-                            style = SpanStyle(
-                                color = Color.Green,
-                                fontSize = 50.sp
-                            )
-                        ) {
-                            append("C")
-
-                        }
-                        append("ompose")
-
-                    },
-                    color = Color.White,
-                    fontSize = 30.sp,
-                    fontFamily = fontFamily,
-                    fontWeight = FontWeight.Bold,
-                    fontStyle = FontStyle.Italic,
-                    textAlign = TextAlign.Center,
-                    textDecoration = TextDecoration.Underline
-
-                )
+            JetpackComposeExamplesTheme {
+                HomeScreen()
             }
         }
     }
